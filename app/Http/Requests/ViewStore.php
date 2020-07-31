@@ -47,50 +47,13 @@ class ViewStore extends FormRequest
             'width' => 'required|int',
             'height' => 'required|int',
             'quality' => 'nullable|int|min:1|max:100',
-            'color' => ['nullable', 'regex:/^#(?:[a-f0-9]{3}|[a-f0-9]{6})\b/i'],
+            'color' => [
+                'nullable',
+                'regex:/^#(?:[a-f0-9]{3}|[a-f0-9]{6})\b/i',
+            ],
             'optimize' => 'bool',
             'webp' => 'bool',
         ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function noneRules(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    protected function resizeRules(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    protected function coverRules(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    protected function containRules(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    protected function fitRules(): array
-    {
-        return [];
     }
 
 }
