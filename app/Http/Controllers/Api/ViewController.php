@@ -39,7 +39,7 @@ class ViewController extends BaseController
         return ViewResource::make(
             $this->queryBuilder($request)
                 ->where('name', $name)
-                ->first()
+                ->firstOrFail()
         );
     }
 
@@ -88,9 +88,7 @@ class ViewController extends BaseController
         $bucket = $request->route()
             ->parameter('bucket');
 
-        return $bucket
-            ->views()
-            ->getQuery();
+        return $bucket->views()->getQuery();
     }
 
 }
