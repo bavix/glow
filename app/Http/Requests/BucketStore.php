@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class BucketRequest extends FormRequest
+class BucketStore extends FormRequest
 {
 
     /**
@@ -15,7 +16,7 @@ class BucketRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -26,7 +27,11 @@ class BucketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|alpha',
+            'name' => [
+                'required',
+                'alpha',
+                Rule::unique('buckets')->where('user_id', Auth::id()),
+            ],
         ];
     }
 

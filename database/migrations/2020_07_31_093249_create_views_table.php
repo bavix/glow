@@ -26,6 +26,8 @@ class CreateViewsTable extends Migration
             $table->boolean('webp')->default(0);
             $table->timestamps();
 
+            $table->unique(['bucket_id', 'name']);
+
             $table->foreign('bucket_id')
                 ->references('id')->on('buckets')
                 ->onDelete('cascade')
