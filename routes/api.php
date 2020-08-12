@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\BucketController;
 
@@ -17,3 +18,4 @@ use App\Http\Controllers\Api\BucketController;
 
 Route::apiResource('bucket', BucketController::class);
 Route::apiResource('bucket/{bucket}/view', ViewController::class);
+Route::apiResource('bucket/{bucket}/file', FileController::class);

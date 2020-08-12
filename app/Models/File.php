@@ -58,6 +58,17 @@ class File extends Model
     const TYPE_FILE = 'file';
 
     /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'route',
+        'type',
+        'visibility',
+        'bucket_id',
+        'user_id',
+    ];
+
+    /**
      * @return HasMany
      */
     public function invites(): HasMany
