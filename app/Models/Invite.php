@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @mixin \Eloquent
  * @property int|null $user_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invite whereUserId($value)
+ * @property-read string $route
  */
 class Invite extends Model
 {
