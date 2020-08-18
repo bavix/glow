@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Buckets;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class FileStore extends FormRequest
+class BucketStore extends FormRequest
 {
 
     /**
@@ -14,7 +16,8 @@ class FileStore extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check() &&
+            $this->user()->tokenCan('bucket:store');
     }
 
     /**
@@ -25,9 +28,11 @@ class FileStore extends FormRequest
     public function rules(): array
     {
         return [
-            'file.*' => 'required|file',
-            'route.*' => 'required|string',
-            'visibility.*' => 'bool',
+            'name' => [
+                'required',
+                'alpha',
+                Rule::unique('buckets')->where('user_id', Auth::id()),
+            ],
         ];
     }
 

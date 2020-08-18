@@ -92,4 +92,17 @@ class File extends Model
         return $this->colors()->where('marked', 1);
     }
 
+    /**
+     * @param string $route
+     * @return string
+     */
+    public function getRouteAttribute(string $route): string
+    {
+        if (!$this->visibility) {
+            return \sprintf('_%s', $route);
+        }
+
+        return $route;
+    }
+
 }

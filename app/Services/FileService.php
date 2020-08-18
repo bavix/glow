@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Bucket;
 use App\Models\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BucketResource extends JsonResource
+class AbilityResource extends JsonResource
 {
 
     /**

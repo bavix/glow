@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\BucketStore;
+use App\Http\Requests\Buckets\BucketDrop;
+use App\Http\Requests\Buckets\BucketIndex;
+use App\Http\Requests\Buckets\BucketShow;
+use App\Http\Requests\Buckets\BucketStore;
 use App\Http\Resources\BucketResource;
 use App\Models\Bucket;
 use App\Models\User;
@@ -17,10 +20,10 @@ class BucketController extends BaseController
 {
 
     /**
-     * @param Request $request
+     * @param BucketIndex $request
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(BucketIndex $request): AnonymousResourceCollection
     {
         return BucketResource::collection(
             $this->queryBuilder($request)
@@ -29,11 +32,11 @@ class BucketController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param BucketShow $request
      * @param Bucket $bucket
      * @return BucketResource
      */
-    public function show(Request $request, Bucket $bucket): BucketResource
+    public function show(BucketShow $request, Bucket $bucket): BucketResource
     {
         return BucketResource::make($bucket);
     }
@@ -55,12 +58,12 @@ class BucketController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param BucketDrop $request
      * @param Bucket $bucket
      * @return Response
      * @throws
      */
-    public function destroy(Request $request, Bucket $bucket): Response
+    public function destroy(BucketDrop $request, Bucket $bucket): Response
     {
         // fixme: locale
         \abort_if(!$bucket->delete(), 404, 'Bucket not found');

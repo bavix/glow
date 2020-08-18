@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $id
  * @property int $bucket_id
  * @property int $file_id
- * @property string $expires_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon $expires_at
  * @property-read \App\Models\Bucket $bucket
  * @property-read \App\Models\File $file
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invite newModelQuery()
@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invite whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invite whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $user_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invite whereUserId($value)
  */
 class Invite extends Model
 {
@@ -51,6 +53,18 @@ class Invite extends Model
     ];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['route'];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function bucket(): BelongsTo
@@ -64,6 +78,14 @@ class Invite extends Model
     public function file(): BelongsTo
     {
         return $this->belongsTo(File::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRouteAttribute(): string
+    {
+        return \sprintf('%s?private=%s', $this->file->route, $this->getKey());
     }
 
 }

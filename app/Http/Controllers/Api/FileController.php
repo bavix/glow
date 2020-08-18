@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\FileStore;
-use App\Http\Requests\FileUpdate;
+use App\Http\Requests\Files\FileDrop;
+use App\Http\Requests\Files\FileIndex;
+use App\Http\Requests\Files\FileInvite;
+use App\Http\Requests\Files\FileShow;
+use App\Http\Requests\Files\FileStore;
+use App\Http\Requests\Files\FileEdit;
 use App\Http\Resources\FileResource;
-use App\Http\Resources\ViewResource;
+use App\Http\Resources\InviteResource;
 use App\Models\Bucket;
 use App\Models\File;
 use App\Services\FileService;
+use App\Services\InviteService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,11 +25,11 @@ class FileController extends BaseController
 {
 
     /**
-     * @param Request $request
+     * @param FileIndex $request
      * @param Bucket $bucket
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request, Bucket $bucket): AnonymousResourceCollection
+    public function index(FileIndex $request, Bucket $bucket): AnonymousResourceCollection
     {
         return FileResource::collection(
             $this->queryBuilder($request)
@@ -33,12 +38,12 @@ class FileController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param FileShow $request
      * @param Bucket $bucket
      * @param string $route
-     * @return ViewResource
+     * @return FileResource
      */
-    public function show(Request $request, Bucket $bucket, string $route): FileResource
+    public function show(FileShow $request, Bucket $bucket, string $route): FileResource
     {
         return FileResource::make(
             $this->queryBuilder($request)
@@ -96,11 +101,11 @@ class FileController extends BaseController
     }
 
     /**
-     * @param FileUpdate $fileRequest
+     * @param FileEdit $fileRequest
      * @param Bucket $bucket
      * @param int $fileId
      */
-    public function update(FileUpdate $fileRequest, Bucket $bucket, int $fileId): FileResource
+    public function update(FileEdit $fileRequest, Bucket $bucket, int $fileId): FileResource
     {
         /**
          * @var File $file
@@ -119,13 +124,13 @@ class FileController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param FileDrop $request
      * @param Bucket $bucket
      * @param int $fileId
      * @return Response
      * @throws
      */
-    public function destroy(Request $request, Bucket $bucket, int $fileId): Response
+    public function destroy(FileDrop $request, Bucket $bucket, int $fileId): Response
     {
         $results = $this->query($request)
             ->whereKey($fileId)
@@ -134,6 +139,26 @@ class FileController extends BaseController
         // fixme: locale
         \abort_if(!$results, 404, 'File not found');
         return \response()->noContent();
+    }
+
+    /**
+     * @param FileInvite $request
+     * @param Bucket $bucket
+     * @param int $fileId
+     * @return InviteResource
+     */
+    public function invite(FileInvite $request, Bucket $bucket, int $fileId): InviteResource
+    {
+        /**
+         * @var File $file
+         */
+        $file = $this->query($request)
+            ->findOrFail($fileId);
+
+        return InviteResource::make(
+            app(InviteService::class)
+                ->makeInvite($file)
+        );
     }
 
     /**

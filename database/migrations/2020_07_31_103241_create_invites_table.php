@@ -15,10 +15,16 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('bucket_id');
             $table->unsignedBigInteger('file_id');
             $table->dateTime('expires_at')->index();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('bucket_id')
                 ->references('id')->on('buckets')
