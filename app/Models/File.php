@@ -89,6 +89,15 @@ class File extends Model
     /**
      * @var string[]
      */
+    protected $dates = [
+        'extracted_at',
+        'processed_at',
+        'optimized_at',
+    ];
+
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'thumbs' => 'json',
         'extra' => 'json',

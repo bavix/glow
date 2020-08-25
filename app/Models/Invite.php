@@ -58,8 +58,8 @@ class Invite extends Model
     /**
      * @var string[]
      */
-    protected $casts = [
-        'expires_at' => 'datetime',
+    protected $dates = [
+        'expires_at',
     ];
 
     /**
