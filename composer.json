@@ -9,8 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-imagick": "*",
         "ext-gd": "*",
         "ext-json": "*",
+        "ext-curl": "*",
         "bavix/glow-kit": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^1.0",
