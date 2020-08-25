@@ -37,10 +37,14 @@ class GlowRefresh extends Command
             ->where('visibility', true)
             ->cursor();
 
+        $progressBar = $this->output->createProgressBar();
+        $progressBar->setProgressCharacter("\xf0\x9f\x8c\x80");
+        $progressBar->setFormat('debug');
+
         /**
          * @var File $file
          */
-        foreach ($lazyCollection as $file) {
+        foreach ($progressBar->iterate($lazyCollection) as $file) {
             $chain = ImageThumbnail::withChain([
                 new ImageWebP($file),
                 new ImageOptimize($file),
@@ -48,6 +52,8 @@ class GlowRefresh extends Command
 
             $chain->dispatch($file);
         }
+
+        $progressBar->finish();
 
         return 0;
     }
