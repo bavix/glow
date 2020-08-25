@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ViewStore;
+use App\Http\Requests\Views\ViewDrop;
+use App\Http\Requests\Views\ViewIndex;
+use App\Http\Requests\Views\ViewShow;
+use App\Http\Requests\Views\ViewStore;
 use App\Http\Resources\ViewResource;
 use App\Models\Bucket;
 use App\Models\View;
@@ -16,11 +19,11 @@ class ViewController extends BaseController
 {
 
     /**
-     * @param Request $request
+     * @param ViewIndex $request
      * @param Bucket $bucket
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request, Bucket $bucket): AnonymousResourceCollection
+    public function index(ViewIndex $request, Bucket $bucket): AnonymousResourceCollection
     {
         return ViewResource::collection(
             $this->queryBuilder($request)
@@ -29,12 +32,12 @@ class ViewController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param ViewShow $request
      * @param Bucket $bucket
      * @param string $name
      * @return ViewResource
      */
-    public function show(Request $request, Bucket $bucket, string $name): ViewResource
+    public function show(ViewShow $request, Bucket $bucket, string $name): ViewResource
     {
         return ViewResource::make(
             $this->queryBuilder($request)
@@ -60,20 +63,20 @@ class ViewController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param ViewDrop $request
      * @param Bucket $bucket
      * @param string $name
      * @return Response
      * @throws
      */
-    public function destroy(Request $request, Bucket $bucket, string $name): Response
+    public function destroy(ViewDrop $request, Bucket $bucket, string $name): Response
     {
-        $results = $this->query($request)
+        $model = $this->query($request)
             ->where('name', $name)
-            ->delete();
+            ->firstOrFail();
 
-        // fixme: locale
-        \abort_if(!$results, 404, 'View not found');
+        $model->delete();
+
         return \response()->noContent();
     }
 

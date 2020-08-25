@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Bucket whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Bucket whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $others
+ * @property-read int|null $others_count
  */
 class Bucket extends Model
 {
@@ -59,6 +61,8 @@ class Bucket extends Model
     }
 
     /**
+     * Get All Files
+     *
      * @return HasMany
      */
     public function files(): HasMany
@@ -67,11 +71,23 @@ class Bucket extends Model
     }
 
     /**
+     * Get Image Files
+     *
      * @return HasMany
      */
     public function images(): HasMany
     {
         return $this->files()->where('type', File::TYPE_IMAGE);
+    }
+
+    /**
+     * Get Other Files
+     *
+     * @return HasMany
+     */
+    public function others(): HasMany
+    {
+        return $this->files()->where('type', '!=', File::TYPE_IMAGE);
     }
 
 }

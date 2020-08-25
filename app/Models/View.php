@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\View
@@ -37,6 +38,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\View whereWebp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\View whereWidth($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
+ * @property-read int|null $files_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $folkFiles
+ * @property-read int|null $folk_files_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $folkImages
+ * @property-read int|null $folk_images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $folkOthers
+ * @property-read int|null $folk_others_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $others
+ * @property-read int|null $others_count
  */
 class View extends Model
 {
@@ -84,6 +97,59 @@ class View extends Model
     public function bucket(): BelongsTo
     {
         return $this->belongsTo(Bucket::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class, 'bucket_id', 'bucket_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function folkFiles(): HasMany
+    {
+        return $this->files()
+            ->where('visibility', true);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function images(): HasMany
+    {
+        return $this->files()
+            ->where('type', File::TYPE_IMAGE);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function others(): HasMany
+    {
+        return $this->files()
+            ->where('type', '!=', File::TYPE_IMAGE);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function folkImages(): HasMany
+    {
+        return $this->folkFiles()
+            ->where('type', File::TYPE_IMAGE);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function folkOthers(): HasMany
+    {
+        return $this->folkFiles()
+            ->where('type', '!=', File::TYPE_IMAGE);
     }
 
 }

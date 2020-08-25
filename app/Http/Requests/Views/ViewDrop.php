@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Views;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
-class BucketStore extends FormRequest
+class ViewDrop extends FormRequest
 {
 
     /**
@@ -16,7 +15,8 @@ class BucketStore extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check() &&
+            $this->user()->tokenCan('view:drop');
     }
 
     /**
@@ -26,13 +26,7 @@ class BucketStore extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => [
-                'required',
-                'alpha',
-                Rule::unique('buckets')->where('user_id', Auth::id()),
-            ],
-        ];
+        return [];
     }
 
 }

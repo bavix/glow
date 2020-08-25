@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Views;
 
 use App\Models\Bucket;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,7 +17,8 @@ class ViewStore extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check() &&
+            $this->user()->tokenCan('view:store');
     }
 
     /**
@@ -42,7 +43,7 @@ class ViewStore extends FormRequest
             ],
             'type' => [
                 'required',
-                'in:contain,cover,fit,none,resize',
+                Rule::in(['contain', 'cover', 'fit', 'none', 'resize']),
             ],
             'width' => 'required|int',
             'height' => 'required|int',

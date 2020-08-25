@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\FileService;
+use App\Services\GlowService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -10,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int $id
  * @property string $route
+ * @property string $urn
+ * @property string $uri
  * @property string $type
  * @property bool $visibility
  * @property bool $extracted
@@ -50,12 +54,54 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\File whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\File whereVisibility($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\View[] $views
+ * @property-read int|null $views_count
+ * @property-read array $thumbs_uri
+ * @property-read array $thumbs_urn
  */
 class File extends Model
 {
 
     const TYPE_IMAGE = 'image';
     const TYPE_FILE = 'file';
+
+    /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'route',
+        'type',
+        'visibility',
+        'bucket_id',
+        'user_id',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $appends = [
+        'urn',
+        'uri',
+        'thumbs_urn',
+        'thumbs_uri',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $dates = [
+        'extracted_at',
+        'processed_at',
+        'optimized_at',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'thumbs' => 'json',
+        'extra' => 'json',
+    ];
 
     /**
      * @return HasMany
@@ -68,9 +114,18 @@ class File extends Model
     /**
      * @return HasMany
      */
+    public function views(): HasMany
+    {
+        return $this->hasMany(View::class, 'bucket_id', 'bucket_id');
+    }
+
+    /**
+     * @return HasMany
+     */
     public function colors(): HasMany
     {
-        return $this->hasMany(Color::class);
+        return $this->hasMany(Color::class)
+            ->orderBy('occurrences', 'desc');
     }
 
     /**
@@ -78,7 +133,56 @@ class File extends Model
      */
     public function palette(): HasMany
     {
-        return $this->colors()->where('marked', 1);
+        return $this->colors()
+            ->where('marked', true);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrnAttribute(): string
+    {
+        if ($this->visibility) {
+            return $this->route;
+        }
+
+        return '_' . $this->route;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUriAttribute(): string
+    {
+        return app(FileService::class)->uri($this);
+    }
+
+    /**
+     * @return array
+     */
+    public function getThumbsUrnAttribute(): array
+    {
+        $results = [];
+        foreach ((array)$this->thumbs as $thumb) {
+            $results[$thumb] = app(GlowService::class)
+                ->thumbnailUrn($this, $thumb);
+        }
+
+        return $results;
+    }
+
+    /**
+     * @return array
+     */
+    public function getThumbsUriAttribute(): array
+    {
+        $results = [];
+        foreach ($this->getThumbsUrnAttribute() as $thumb => $urn) {
+            $results[$thumb] = app(FileService::class)
+                ->uri($this, $urn);
+        }
+
+        return $results;
     }
 
 }
