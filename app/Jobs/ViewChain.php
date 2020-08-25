@@ -40,7 +40,7 @@ class ViewChain implements ShouldQueue
     public function handle(): void
     {
         $this->view->folkImages()->each(static function (File $file) {
-            $chain = ImageThumbnail::withChain(!$file->visibility ? [] : [
+            $chain = ImageThumbnail::withChain([
                 new ImageWebP($file),
                 new ImageOptimize($file),
             ]);
