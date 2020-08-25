@@ -73,7 +73,7 @@ class GlowService
      */
     public function thumbnailUrn(File $file, string $view): string
     {
-        $urnExplode = explode(DIRECTORY_SEPARATOR, $file->route, 2);
+        $urnExplode = \explode(DIRECTORY_SEPARATOR, $file->route, 2);
         $bucket = \current($urnExplode); // _glow
         $dirname = \dirname(\end($urnExplode));
         $basename = \basename($file->route);
