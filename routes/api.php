@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-Auth::routes();
 
 /*
 |--------------------------------------------------------------------------
