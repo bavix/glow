@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $user_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invite whereUserId($value)
  * @property-read string $route
+ * @property-read string $uri
+ * @property-read string $urn
  */
 class Invite extends Model
 {
@@ -50,19 +52,22 @@ class Invite extends Model
         'id',
         'bucket_id',
         'file_id',
-        'expires_at'
+        'expires_at',
     ];
-
-    /**
-     * @var string[]
-     */
-    protected $appends = ['route'];
 
     /**
      * @var string[]
      */
     protected $casts = [
         'expires_at' => 'datetime',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $appends = [
+        'urn',
+        'uri',
     ];
 
     /**
@@ -84,9 +89,17 @@ class Invite extends Model
     /**
      * @return string
      */
-    public function getRouteAttribute(): string
+    public function getUrnAttribute(): string
     {
-        return \sprintf('%s?private=%s', $this->file->route, $this->getKey());
+        return $this->file->urn . '?key=' . $this->getKey();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUriAttribute(): string
+    {
+        return $this->file->uri . '?key=' . $this->getKey();
     }
 
 }

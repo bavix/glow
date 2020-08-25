@@ -21,6 +21,8 @@ class CreateColorsTable extends Migration
             $table->boolean('marked')->index();
             $table->timestamps();
 
+            $table->unique(['file_id', 'decimal']);
+
             $table->foreign('file_id')
                 ->references('id')->on('files')
                 ->onDelete('cascade')

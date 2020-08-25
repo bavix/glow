@@ -33,6 +33,7 @@ class FileController extends BaseController
     {
         return FileResource::collection(
             $this->queryBuilder($request)
+                ->allowedIncludes(['colors', 'palette'])
                 ->paginate()
         );
     }
@@ -47,6 +48,7 @@ class FileController extends BaseController
     {
         return FileResource::make(
             $this->queryBuilder($request)
+                ->allowedIncludes(['colors', 'palette'])
                 ->where('route', $route)
                 ->firstOrFail()
         );
@@ -115,7 +117,8 @@ class FileController extends BaseController
             ->firstOrFail();
 
         abort_if(
-            !app(FileService::class)->moveTo($file, $fileRequest->input('visibility')),
+            !app(FileService::class)
+                ->moveTo($file, $fileRequest->input('visibility')),
             423,
             'Locked'
         );
@@ -154,6 +157,8 @@ class FileController extends BaseController
          */
         $file = $this->query($request)
             ->findOrFail($fileId);
+
+        \abort_if($file->visibility, 406, 'Public access file');
 
         return InviteResource::make(
             app(InviteService::class)

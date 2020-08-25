@@ -11,6 +11,9 @@ namespace PHPSTORM_META {
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -153,7 +156,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -173,6 +176,9 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -315,7 +321,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -335,6 +341,9 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -477,7 +486,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -497,6 +506,9 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -639,7 +651,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -659,6 +671,9 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -801,7 +816,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -821,6 +836,9 @@ namespace PHPSTORM_META {
         ]));
     override(\App::get(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -963,7 +981,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -983,6 +1001,9 @@ namespace PHPSTORM_META {
         ]));
     override(\App::make(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -1125,7 +1146,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -1145,6 +1166,9 @@ namespace PHPSTORM_META {
         ]));
     override(\App::makeWith(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -1287,7 +1311,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -1307,6 +1331,9 @@ namespace PHPSTORM_META {
         ]));
     override(\app(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -1449,7 +1476,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -1469,6 +1496,9 @@ namespace PHPSTORM_META {
         ]));
     override(\resolve(0), map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -1611,7 +1641,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,
@@ -1631,6 +1661,9 @@ namespace PHPSTORM_META {
         ]));
     override(\Psr\Container\ContainerInterface::get, map([
         '' => '@',
+            'App\Services\FileService' => \App\Services\FileService::class,
+            'App\Services\GlowService' => \App\Services\GlowService::class,
+            'App\Services\InviteService' => \App\Services\InviteService::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
             'Facade\FlareClient\Flare' => \Facade\FlareClient\Flare::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
@@ -1773,7 +1806,7 @@ namespace PHPSTORM_META {
             'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
-            'queue.connection' => \Illuminate\Queue\SyncQueue::class,
+            'queue.connection' => \Illuminate\Queue\RedisQueue::class,
             'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
             'queue.listener' => \Illuminate\Queue\Listener::class,
             'queue.worker' => \Illuminate\Queue\Worker::class,

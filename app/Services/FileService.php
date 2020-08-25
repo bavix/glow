@@ -28,7 +28,28 @@ class FileService
      */
     public function getDisk(bool $visibility): string
     {
-        return $visibility ? 'public' : 'private';
+        return $visibility ? 'folk' : 'private';
+    }
+
+    /**
+     * @param File $file
+     * @return bool
+     */
+    public function exists(File $file): bool
+    {
+        return Storage::disk($this->getDisk($file->visibility))
+            ->exists($file->route);
+    }
+
+    /**
+     * @param File $file
+     * @param null|string $urn
+     * @return string
+     */
+    public function uri(File $file, ?string $urn = null): string
+    {
+        return Storage::disk($this->getDisk($file->visibility))
+            ->url($urn ?: $file->urn);
     }
 
     /**

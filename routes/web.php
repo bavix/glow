@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+Auth::routes();
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')
+    ->name('welcome');
+
+Route::get('/capsule/{capsule}:{thumbs}/{routable}', 'Sharing\FileController@available')
+    ->name('capsule.available');
+
+Route::get('/capsule/_{capsule}/{routable}', 'Sharing\FileController@invite')
+    ->name('capsule.invite');

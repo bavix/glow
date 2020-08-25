@@ -71,12 +71,12 @@ class ViewController extends BaseController
      */
     public function destroy(ViewDrop $request, Bucket $bucket, string $name): Response
     {
-        $results = $this->query($request)
+        $model = $this->query($request)
             ->where('name', $name)
-            ->delete();
+            ->firstOrFail();
 
-        // fixme: locale
-        \abort_if(!$results, 404, 'View not found');
+        $model->delete();
+
         return \response()->noContent();
     }
 
