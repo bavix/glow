@@ -57,8 +57,10 @@ class ImagePalette implements ShouldQueue
         $originalPath = Storage::disk($diskName)
             ->path($this->image->route);
 
-        // gd only
-        $imageManager = new ImageManager(['driver' => 'gd']);
+        /**
+         * @var ImageManager $imageManager
+         */
+        $imageManager = resolve(ImageManager::class);
         $originalImage = $imageManager->make($originalPath);
         $fit = new Fit($imageManager);
         $fitImage = $fit->apply($originalImage, [
@@ -66,7 +68,12 @@ class ImagePalette implements ShouldQueue
             'height' => 400,
         ]);
 
-        $fitGDImage = $fitImage->getCore();
+        $gdImageManager = new ImageManager(['driver' => 'gd']);
+        $gdImage = $gdImageManager->make(
+            (string)$fitImage->encode('jpg')
+        );
+
+        $fitGDImage = $gdImage->getCore();
         $palette = Palette::fromGD($fitGDImage);
         $extractor = new ColorExtractor($palette);
 
