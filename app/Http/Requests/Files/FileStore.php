@@ -30,6 +30,7 @@ class FileStore extends FormRequest
             'file.*' => 'required|file',
             'route.*' => 'required|string',
             'visibility.*' => 'bool',
+            'force' => 'bool',
         ];
     }
 

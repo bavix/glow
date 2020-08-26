@@ -81,6 +81,7 @@ class FileController extends BaseController
             $type = app(FileService::class)->getFileType($file);
             $route = app(FileService::class)->storeAs($file, $bucket->name . '/' . \ltrim($routes[$key], '/'), [
                 'visibility' => $visibility,
+                'force' => $fileRequest->input('force', false),
             ]);
 
             if ($route) {
