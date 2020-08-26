@@ -26,6 +26,6 @@ Route::middleware('auth:sanctum')->group(static function (Router $router) {
     $router->apiResource('bucket', 'Api\BucketController');
     $router->apiResource('bucket/{bucket}/view', 'Api\ViewController');
     $router->apiResource('bucket/{bucket}/file', 'Api\FileController');
-    $router->post('bucket/{bucket}/file/{file}/invite', 'Api\FileController@invite')
+    $router->post('bucket/{bucket}/invite/{file}', 'Api\FileController@invite')
         ->name('file.invite');
 });

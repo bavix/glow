@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         View::observe(ViewObserver::class);
 
         // get route by file
-        Route::pattern('routable', '.+'); // any
+        Route::pattern('file', '.+'); // any
 
         // load model bucket by user
         Route::bind('bucket', static function ($value) {
