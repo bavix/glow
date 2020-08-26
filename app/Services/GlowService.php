@@ -77,6 +77,7 @@ class GlowService
         $bucket = \current($urnExplode); // _glow
         $dirname = \dirname(\end($urnExplode));
         $basename = \basename($file->route);
+        $basename = \preg_replace('/(\.svg)$/', '$1.jpg', $basename);
 
         return \sprintf('%s:%s/%s/%s', $bucket, $view, $dirname, $basename);
     }
