@@ -18,8 +18,8 @@ Auth::routes();
 Route::view('/', 'welcome')
     ->name('welcome');
 
-Route::get('/capsule/{capsule}:{thumbs}/{routable}', 'Sharing\FileController@available')
+Route::get('/capsule/{capsule}:{thumbs}/{file}', 'Sharing\FileController@available')
     ->name('capsule.available');
 
-Route::get('/capsule/_{capsule}/{routable}', 'Sharing\FileController@invite')
+Route::get('/capsule/_{capsule}/{file}', 'Sharing\FileController@invite')
     ->name('capsule.invite');

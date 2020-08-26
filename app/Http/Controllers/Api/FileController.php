@@ -49,7 +49,7 @@ class FileController extends BaseController
         return FileResource::make(
             $this->queryBuilder($request)
                 ->allowedIncludes(['colors', 'palette'])
-                ->where('route', $route)
+                ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
                 ->firstOrFail()
         );
     }
@@ -106,15 +106,15 @@ class FileController extends BaseController
     /**
      * @param FileEdit $fileRequest
      * @param Bucket $bucket
-     * @param int $fileId
+     * @param string $route
      */
-    public function update(FileEdit $fileRequest, Bucket $bucket, int $fileId): FileResource
+    public function update(FileEdit $fileRequest, Bucket $bucket, string $route): FileResource
     {
         /**
          * @var File $file
          */
         $file = $this->query($fileRequest)
-            ->whereKey($fileId)
+            ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
             ->firstOrFail();
 
         abort_if(
@@ -130,14 +130,14 @@ class FileController extends BaseController
     /**
      * @param FileDrop $request
      * @param Bucket $bucket
-     * @param int $fileId
+     * @param string $route
      * @return Response
      * @throws
      */
-    public function destroy(FileDrop $request, Bucket $bucket, int $fileId): Response
+    public function destroy(FileDrop $request, Bucket $bucket, string $route): Response
     {
         $results = $this->query($request)
-            ->whereKey($fileId)
+            ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
             ->delete();
 
         // fixme: locale
@@ -148,16 +148,17 @@ class FileController extends BaseController
     /**
      * @param FileInvite $request
      * @param Bucket $bucket
-     * @param int $fileId
+     * @param string $route
      * @return InviteResource
      */
-    public function invite(FileInvite $request, Bucket $bucket, int $fileId): InviteResource
+    public function invite(FileInvite $request, Bucket $bucket, string $route): InviteResource
     {
         /**
          * @var File $file
          */
         $file = $this->query($request)
-            ->findOrFail($fileId);
+            ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
+            ->firstOrFail();
 
         \abort_if($file->visibility, 406, 'Public access file');
 
