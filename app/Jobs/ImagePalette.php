@@ -72,6 +72,8 @@ class ImagePalette implements ShouldQueue
         $gdImage = $gdImageManager->make(
             (string)$fitImage->encode('jpg')
         );
+        $originalImage->destroy();
+        $fitImage->destroy();
 
         $fitGDImage = $gdImage->getCore();
         $palette = Palette::fromGD($fitGDImage);
@@ -94,7 +96,7 @@ class ImagePalette implements ShouldQueue
             ->sortBy('marked', SORT_REGULAR, true);
 
         // free image
-        $fitImage->destroy();
+        $gdImage->destroy();
 
         Color::insert($colors->splice(0, 50)->toArray());
         $this->image->extracted = true;
