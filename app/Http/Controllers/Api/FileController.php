@@ -14,6 +14,7 @@ use App\Models\Bucket;
 use App\Models\File;
 use App\Services\FileService;
 use App\Services\InviteService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -160,11 +161,11 @@ class FileController extends BaseController
             ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
             ->firstOrFail();
 
-        \abort_if($file->visibility, 406, 'Public access file');
+        $expires_at = Carbon::parse($request->expires_at)->timestamp;
 
         return InviteResource::make(
             app(InviteService::class)
-                ->makeInvite($file)
+                ->makeInvite($file, $expires_at)
         );
     }
 
