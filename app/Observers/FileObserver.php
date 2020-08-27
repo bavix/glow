@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Jobs\ImageExtra;
+use App\Jobs\FileExtra;
 use App\Jobs\ImageOptimize;
 use App\Jobs\ImagePalette;
 use App\Jobs\FilePurge;
@@ -22,7 +22,7 @@ class FileObserver
         /**
          * Determine the type or level of availability
          */
-        if (!$file->visibility || $file->type !== File::TYPE_IMAGE) {
+        if (!$file->visibility) {
             return;
         }
 
@@ -33,10 +33,15 @@ class FileObserver
             return;
         }
 
+        if ($file->type !== File::TYPE_IMAGE) {
+            FileExtra::dispatch($file);
+            return;
+        }
+
         $chain = ImageThumbnail::withChain([
             new ImageWebP($file),
             new ImageOptimize($file),
-            new ImageExtra($file),
+            new FileExtra($file),
             new ImagePalette($file),
         ]);
 
@@ -48,14 +53,15 @@ class FileObserver
      */
     public function updating(File $file): void
     {
-        if ($file->type !== File::TYPE_IMAGE) {
-            return;
-        }
-
         /**
          * Checking the existence of a file on the server
          */
         if (!app(FileService::class)->exists($file)) {
+            return;
+        }
+
+        if ($file->type !== File::TYPE_IMAGE) {
+            FileExtra::dispatch($file);
             return;
         }
 
@@ -64,6 +70,7 @@ class FileObserver
                 new ImageThumbnail($file),
                 new ImageWebP($file),
                 new ImageOptimize($file),
+                new FileExtra($file),
             ]);
 
             $chain->dispatch($file);
