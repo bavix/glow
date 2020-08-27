@@ -83,7 +83,7 @@ class FileObserver
         }
 
         // with drop original file
-        FilePurge::dispatch($file, true);
+        FilePurge::dispatch($file, (array)$file->thumbs, true);
         return false;
     }
 
