@@ -136,12 +136,12 @@ class FileController extends BaseController
      */
     public function destroy(FileDrop $request, Bucket $bucket, string $route): Response
     {
-        $results = $this->query($request)
+        $file = $this->query($request)
             ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
-            ->delete();
+            ->firstOrFail();
 
-        // fixme: locale
-        \abort_if(!$results, 404, 'File not found');
+        $file->delete();
+
         return \response()->noContent();
     }
 
