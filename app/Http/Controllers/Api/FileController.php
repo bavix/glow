@@ -14,6 +14,7 @@ use App\Models\Bucket;
 use App\Models\File;
 use App\Services\FileService;
 use App\Services\InviteService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -136,12 +137,12 @@ class FileController extends BaseController
      */
     public function destroy(FileDrop $request, Bucket $bucket, string $route): Response
     {
-        $results = $this->query($request)
+        $file = $this->query($request)
             ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
-            ->delete();
+            ->firstOrFail();
 
-        // fixme: locale
-        \abort_if(!$results, 404, 'File not found');
+        $file->delete();
+
         return \response()->noContent();
     }
 
@@ -161,10 +162,11 @@ class FileController extends BaseController
             ->firstOrFail();
 
         \abort_if($file->visibility, 406, 'Public access file');
+        $expires_at = Carbon::parse($request->expires_at)->timestamp;
 
         return InviteResource::make(
             app(InviteService::class)
-                ->makeInvite($file)
+                ->makeInvite($file, $expires_at)
         );
     }
 

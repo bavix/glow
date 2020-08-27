@@ -22,10 +22,10 @@ class InviteService
 
     /**
      * @param File $file
-     * @param int $expireInDays
+     * @param int $expiresAt
      * @return Invite
      */
-    public function makeInvite(File $file, int $expireInDays = 30): Invite
+    public function makeInvite(File $file, int $expiresAt): Invite
     {
         do {
             try {
@@ -35,7 +35,7 @@ class InviteService
                 $invite->setRelation('file', $file); // lazy load
                 $invite->file_id = $file->getKey();
                 $invite->bucket_id = $file->bucket_id;
-                $invite->expires_at = now()->addDays($expireInDays);
+                $invite->expires_at = $expiresAt;
                 $invite->save();
             } catch (\Throwable $throwable) {
                 $invite = null;

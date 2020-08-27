@@ -5,6 +5,11 @@ namespace App\Http\Requests\Files;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class FileInvite
+ * @package App\Http\Requests\Files
+ * @property-read string $expires_at
+ */
 class FileInvite extends FormRequest
 {
 
@@ -26,7 +31,9 @@ class FileInvite extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'expires_at' => ['required', 'date', 'after:now'],
+        ];
     }
 
 }
