@@ -25,7 +25,7 @@ class InviteService
      * @param int $expiresAt
      * @return Invite
      */
-    public function makeInvite(File $file, int $expiresAt = 30): Invite
+    public function makeInvite(File $file, int $expiresAt): Invite
     {
         do {
             try {
