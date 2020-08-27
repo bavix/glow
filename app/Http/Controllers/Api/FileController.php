@@ -161,6 +161,7 @@ class FileController extends BaseController
             ->where('route', $bucket->name . '/' . \ltrim($route, '/'))
             ->firstOrFail();
 
+        \abort_if($file->visibility, 406, 'Public access file');
         $expires_at = Carbon::parse($request->expires_at)->timestamp;
 
         return InviteResource::make(
