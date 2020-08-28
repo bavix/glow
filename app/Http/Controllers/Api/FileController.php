@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends BaseController
 {
@@ -86,6 +87,9 @@ class FileController extends BaseController
             ]);
 
             if ($route) {
+                $diskName = app(FileService::class)
+                    ->getDisk($visibility);
+
                 $models[] = File::firstOrCreate([
                     'user_id' => Auth::id(),
                     'route' => $route,
@@ -93,6 +97,8 @@ class FileController extends BaseController
                     'bucket_id' => $bucket->getKey(),
                     'visibility' => $visibility,
                     'type' => $type,
+                    'extra' => Storage::disk($diskName)
+                        ->getMetadata($route),
                 ]);
             }
         }
