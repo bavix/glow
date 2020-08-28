@@ -48,22 +48,46 @@ class FileController extends BaseController
      */
     public function listContents(FileIndex $request, Bucket $bucket): AnonymousResourceCollection
     {
-        $private = app(FileService::class)->getDisk(false);
-        $public = app(FileService::class)->getDisk(true);
-        $disks = [$private, $public];
-
+        $uniqDirs = [];
         $results = [];
-        foreach ($disks as $disk) {
-            $listContents = Storage::disk($disk)->listContents(
-                $bucket->name . '/' . (string)$request->input('directory', ''),
-                (bool)$request->input('recursive', false)
-            );
+        $directory = (string)$request->input('directory', '');
+        $recursive = (bool)$request->input('recursive', false);
+        foreach ($bucket->files()->cursor() as $file) {
+            $path = \substr($file->route, \strlen($bucket->name) + 1);
 
-            foreach ($listContents as $content) {
-                $results[] = \array_merge($content, [
-                    'path' => \mb_substr($content['path'], \mb_strlen($bucket->name) + 1),
-                    'visibility' => $disk === $public,
-                ]);
+            $paths = ['.'];
+            $dirPath = \dirname($path);
+            if ($dirPath !== '.') {
+                $paths = \explode('/', $dirPath);
+            }
+
+            $dirname = $directory === '' ? current($paths) : $directory;
+            if (!$recursive && count($paths) > 1) {
+                $paths = [\current($paths), \end($paths)];
+            }
+
+            if (empty($file->extra) || !\in_array($dirname, $paths, true)) {
+                continue;
+            }
+
+            $results[] = \compact('path') + $file->extra;
+
+            $breadcrumbs = [];
+            foreach ($paths as $dir) {
+                if ($dir === '.') {
+                    continue;
+                }
+
+                $breadcrumbs[] = $dir;
+                $folderPath = \implode('/', $breadcrumbs);
+                if (!isset($uniqDirs[$folderPath])) {
+                    $uniqDirs[$folderPath] = true;
+                    $results[] = [
+                        'type' => 'dir',
+                        'path' => \implode('/', $breadcrumbs),
+                        'timestamp' => $file->extra['timestamp'],
+                    ];
+                }
             }
         }
 
