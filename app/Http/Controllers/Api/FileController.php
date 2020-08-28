@@ -52,7 +52,8 @@ class FileController extends BaseController
         $results = [];
         $directory = (string)$request->input('directory', '');
         $recursive = (bool)$request->input('recursive', false);
-        foreach ($bucket->files()->cursor() as $file) {
+
+        $bucket->files()->each(static function (File $file) use ($bucket, $directory, $recursive, &$uniqDirs, &$results) {
             $path = \substr($file->route, \strlen($bucket->name) + 1);
 
             $paths = ['.'];
@@ -67,7 +68,7 @@ class FileController extends BaseController
             }
 
             if (empty($file->extra) || !\in_array($dirname, $paths, true)) {
-                continue;
+                return;
             }
 
             $results[] = \compact('path') + $file->extra;
@@ -89,7 +90,7 @@ class FileController extends BaseController
                     ];
                 }
             }
-        }
+        });
 
         return StorageResource::collection($results);
     }
