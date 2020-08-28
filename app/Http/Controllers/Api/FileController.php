@@ -10,6 +10,7 @@ use App\Http\Requests\Files\FileStore;
 use App\Http\Requests\Files\FileEdit;
 use App\Http\Resources\FileResource;
 use App\Http\Resources\InviteResource;
+use App\Http\Resources\StorageResource;
 use App\Models\Bucket;
 use App\Models\File;
 use App\Services\FileService;
@@ -38,6 +39,35 @@ class FileController extends BaseController
                 ->allowedIncludes(['colors', 'palette'])
                 ->paginate()
         );
+    }
+
+    /**
+     * @param FileIndex $request
+     * @param Bucket $bucket
+     * @return AnonymousResourceCollection
+     */
+    public function listContents(FileIndex $request, Bucket $bucket): AnonymousResourceCollection
+    {
+        $disks = [
+            app(FileService::class)->getDisk(false),
+            app(FileService::class)->getDisk(true),
+        ];
+
+        $results = [];
+        foreach ($disks as $disk) {
+            $listContents = Storage::disk($disk)->listContents(
+                $bucket->name . '/' . (string)$request->input('directory', ''),
+                (bool)$request->input('recursive', false)
+            );
+
+            foreach ($listContents as $content) {
+                $results[] = \array_merge($content, [
+                    'path' => \mb_substr($content['path'], \mb_strlen($bucket->name) + 1),
+                ]);
+            }
+        }
+
+        return StorageResource::collection($results);
     }
 
     /**
