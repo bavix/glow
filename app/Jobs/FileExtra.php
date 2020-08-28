@@ -50,13 +50,15 @@ class FileExtra implements ShouldQueue
         $adapter = Storage::disk($diskName);
 
         $fileExtra = [
-            'last_modified' => $adapter->lastModified($this->file->route),
-            'filesize' => $adapter->size($this->file->route),
-            'mime' => $adapter->mimeType($this->file->route),
+            'mimetype' => $adapter->mimeType($this->file->route),
         ];
 
-        $imageExtra = $this->getImageExtra($adapter);
-        $this->file->extra = \array_merge($fileExtra, $imageExtra);
+        $this->file->extra = \array_merge(
+            (array)$this->file->extra,
+            $fileExtra,
+            $this->getImageExtra($adapter)
+        );
+
         $this->file->save();
     }
 
@@ -75,6 +77,7 @@ class FileExtra implements ShouldQueue
         );
 
         $extra = [
+            'mimetype' => $image->mime(),
             'mime' => $image->mime(),
             'width' => $image->width(),
             'height' => $image->height(),

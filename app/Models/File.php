@@ -69,6 +69,7 @@ class File extends Model
      * @var string[]
      */
     protected $fillable = [
+        'extra',
         'route',
         'type',
         'visibility',
