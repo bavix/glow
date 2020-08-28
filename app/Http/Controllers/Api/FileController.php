@@ -48,10 +48,9 @@ class FileController extends BaseController
      */
     public function listContents(FileIndex $request, Bucket $bucket): AnonymousResourceCollection
     {
-        $disks = [
-            app(FileService::class)->getDisk(false),
-            app(FileService::class)->getDisk(true),
-        ];
+        $private = app(FileService::class)->getDisk(false);
+        $public = app(FileService::class)->getDisk(true);
+        $disks = [$private, $public];
 
         $results = [];
         foreach ($disks as $disk) {
@@ -63,6 +62,7 @@ class FileController extends BaseController
             foreach ($listContents as $content) {
                 $results[] = \array_merge($content, [
                     'path' => \mb_substr($content['path'], \mb_strlen($bucket->name) + 1),
+                    'visibility' => $disk === $public,
                 ]);
             }
         }
