@@ -22,7 +22,7 @@ class FileController extends Controller
     public function available(Request $request, string $capsule, string $thumbnail, string $route): void
     {
         $regex = '/^[^\.]+\.(?<ext>\w+)(?<webp>\.webp)?$/i';
-        \preg_match($regex, basename($route), $matches);
+        \preg_match($regex, \basename($route), $matches);
 
         $webp = false;
         $ephemeralRoute = $route;
@@ -39,7 +39,7 @@ class FileController extends Controller
         \abort_if($file->type !== File::TYPE_IMAGE, 400);
 
         $urn = $capsule . '/' . $thumbnail . '/' . $route;
-        $mimeType = $file->extra['mime'] ?? 'image/jpeg';
+        $mimeType = $file->extra['mimetype'] ?? 'image/jpeg';
         if ($webp) {
             $mimeType = 'image/webp';
         }
@@ -63,7 +63,7 @@ class FileController extends Controller
         // get invite info
         $key = $request->input('key');
         $invite = Invite::findOrFail($key);
-        $file = $invite->file;
+        $file = File::findOrFail($invite->file_id);
 
         // check file
         \abort_if($file->route !== $capsule . '/' . $route, 404);

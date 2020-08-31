@@ -50,6 +50,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $others
  * @property-read int|null $others_count
+ * @property string|null $position
+ * @property bool $upsize
+ * @property bool $strict
+ * @method static \Illuminate\Database\Eloquent\Builder|View wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|View whereStrict($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|View whereUpsize($value)
  */
 class View extends Model
 {
@@ -65,6 +71,9 @@ class View extends Model
         'height',
         'quality',
         'color',
+        'position',
+        'strict',
+        'upsize',
         'optimize',
         'webp',
     ];
@@ -77,6 +86,8 @@ class View extends Model
         'width' => 'int',
         'height' => 'int',
         'quality' => 'int',
+        'strict' => 'bool',
+        'upsize' => 'bool',
         'optimize' => 'bool',
         'webp' => 'bool',
     ];

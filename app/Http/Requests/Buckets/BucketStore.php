@@ -31,7 +31,8 @@ class BucketStore extends FormRequest
             'name' => [
                 'required',
                 'alpha',
-                Rule::unique('buckets')->where('user_id', Auth::id()),
+                Rule::unique('buckets')
+                    ->where('user_id', Auth::id()),
             ],
         ];
     }

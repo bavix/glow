@@ -11,9 +11,9 @@ class CreateViewsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('views', function (Blueprint $table) {
+        Schema::create('views', static function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
             $table->unsignedBigInteger('bucket_id');
@@ -22,6 +22,9 @@ class CreateViewsTable extends Migration
             $table->unsignedInteger('height')->nullable();
             $table->unsignedTinyInteger('quality')->nullable();
             $table->string('color')->nullable();
+            $table->string('position')->nullable();
+            $table->boolean('upsize')->default(1);
+            $table->boolean('strict')->default(0);
             $table->boolean('optimize')->default(0);
             $table->boolean('webp')->default(0);
             $table->timestamps();
@@ -40,7 +43,7 @@ class CreateViewsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('views');
     }

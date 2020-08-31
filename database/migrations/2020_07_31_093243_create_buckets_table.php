@@ -11,9 +11,9 @@ class CreateBucketsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('buckets', function (Blueprint $table) {
+        Schema::create('buckets', static function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
             $table->unsignedBigInteger('user_id');
@@ -33,7 +33,7 @@ class CreateBucketsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('buckets');
     }

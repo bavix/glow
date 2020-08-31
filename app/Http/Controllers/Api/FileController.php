@@ -23,6 +23,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class FileController extends BaseController
 {
@@ -36,6 +37,13 @@ class FileController extends BaseController
     {
         return FileResource::collection(
             $this->queryBuilder($request)
+                ->allowedFilters([
+                    'type',
+                    AllowedFilter::exact('visibility'),
+                    AllowedFilter::exact('extracted'),
+                    AllowedFilter::exact('optimized'),
+                    AllowedFilter::exact('processed'),
+                ])
                 ->allowedIncludes(['colors', 'palette'])
                 ->paginate()
         );
