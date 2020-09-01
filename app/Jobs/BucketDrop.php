@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Bucket;
 use App\Models\File;
+use App\Models\View;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -40,11 +41,13 @@ class BucketDrop implements ShouldQueue
     public function handle(): void
     {
         $this->bucket->files()->each(static function (File $file) {
-            $file->delete();
+            FilePurge::dispatchNow($file, (array)$file->thumbs, true);
         });
 
-        Bucket::withoutEvents(function () {
-            $this->bucket->delete();
+        $this->bucket->views()->each(static function (View $view) {
+            ViewDrop::dispatchNow($view);
         });
+
+        $this->bucket->forceDelete();
     }
 }
