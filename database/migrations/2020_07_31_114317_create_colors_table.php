@@ -11,9 +11,9 @@ class CreateColorsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('colors', function (Blueprint $table) {
+        Schema::create('colors', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('file_id');
             $table->unsignedInteger('decimal')->index();
@@ -35,7 +35,7 @@ class CreateColorsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('colors');
     }

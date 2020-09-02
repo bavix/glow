@@ -44,7 +44,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function abilities(): AnonymousResourceCollection
     {

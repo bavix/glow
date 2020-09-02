@@ -7,8 +7,6 @@ use App\Models\View;
 use Bavix\Glow\Adapters\Contain;
 use Bavix\Glow\Adapters\Cover;
 use Bavix\Glow\Adapters\Fit;
-use Bavix\Glow\Adapters\None;
-use Bavix\Glow\Adapters\Resize;
 use Bavix\Glow\DriverInterface;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;

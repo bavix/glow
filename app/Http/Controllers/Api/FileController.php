@@ -10,6 +10,7 @@ use App\Http\Requests\Files\FileStore;
 use App\Http\Requests\Files\FileEdit;
 use App\Http\Resources\FileResource;
 use App\Http\Resources\InviteResource;
+use App\Http\Resources\StorageResource;
 use App\Models\Bucket;
 use App\Models\File;
 use App\Services\FileService;
@@ -22,6 +23,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class FileController extends BaseController
 {
@@ -35,9 +37,70 @@ class FileController extends BaseController
     {
         return FileResource::collection(
             $this->queryBuilder($request)
+                ->allowedFilters([
+                    'type',
+                    AllowedFilter::exact('visibility'),
+                    AllowedFilter::exact('extracted'),
+                    AllowedFilter::exact('optimized'),
+                    AllowedFilter::exact('processed'),
+                ])
                 ->allowedIncludes(['colors', 'palette'])
                 ->paginate()
         );
+    }
+
+    /**
+     * @param FileIndex $request
+     * @param Bucket $bucket
+     * @return AnonymousResourceCollection
+     */
+    public function listContents(FileIndex $request, Bucket $bucket): AnonymousResourceCollection
+    {
+        $uniqDirs = [];
+        $results = [];
+        $directory = (string)$request->input('directory', '');
+        $recursive = (bool)$request->input('recursive', false);
+
+        $bucket->files()->each(static function (File $file) use ($bucket, $directory, $recursive, &$uniqDirs, &$results) {
+            $path = \substr($file->route, \strlen($bucket->name) + 1);
+
+            $paths = ['.'];
+            $dirPath = \dirname($path);
+            if ($dirPath !== '.') {
+                $paths = \explode('/', $dirPath);
+            }
+
+            $dirname = $directory === '' ? current($paths) : $directory;
+            if (!$recursive && count($paths) > 1) {
+                $paths = [\current($paths), \end($paths)];
+            }
+
+            if (empty($file->extra) || !\in_array($dirname, $paths, true)) {
+                return;
+            }
+
+            $results[] = \compact('path') + $file->extra;
+
+            $breadcrumbs = [];
+            foreach ($paths as $dir) {
+                if ($dir === '.') {
+                    continue;
+                }
+
+                $breadcrumbs[] = $dir;
+                $folderPath = \implode('/', $breadcrumbs);
+                if (!isset($uniqDirs[$folderPath])) {
+                    $uniqDirs[$folderPath] = true;
+                    $results[] = [
+                        'type' => 'dir',
+                        'path' => \implode('/', $breadcrumbs),
+                        'timestamp' => $file->extra['timestamp'],
+                    ];
+                }
+            }
+        });
+
+        return StorageResource::collection($results);
     }
 
     /**

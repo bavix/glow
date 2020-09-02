@@ -20,13 +20,6 @@ class FileObserver
     public function created(File $file): void
     {
         /**
-         * Determine the type or level of availability
-         */
-        if (!$file->visibility) {
-            return;
-        }
-
-        /**
          * Checking the existence of a file on the server
          */
         if (!app(FileService::class)->exists($file)) {
