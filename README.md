@@ -5,7 +5,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/bavix/glow/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bavix/glow/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/bavix/glow/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bavix/glow/build-status/master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/bavix/glow/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
-[![Financial Contributors on Open Collective](https://opencollective.com/glow/all/badge.svg?label=financial+contributors)](https://opencollective.com/glow) [![Mutation testing badge](https://badge.stryker-mutator.io/github.com/bavix/glow/master)](https://packagist.org/packages/bavix/glow)
+[![Mutation testing badge](https://badge.stryker-mutator.io/github.com/bavix/glow/master)](https://packagist.org/packages/bavix/glow)
 
 [![Package Rank](https://phppackages.org/p/bavix/glow/badge/rank.svg)](https://packagist.org/packages/bavix/glow)
 [![Latest Stable Version](https://poser.pugx.org/bavix/glow/v/stable)](https://packagist.org/packages/bavix/glow)
