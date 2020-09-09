@@ -19,7 +19,7 @@ Glow CDN - File and image storage service with automatic preview creation.
 * **Package**: glow
 * **Version**: [![Latest Stable Version](https://poser.pugx.org/bavix/glow/v/stable)](https://packagist.org/packages/bavix/glow)
 * **PHP Version**: 7.3+ 
-* **Based Laravel Version**: `7.x`
+* **Based Laravel Version**: `8.x`
 * **[Composer](https://getcomposer.org/):** `composer create-project --prefer-dist bavix/glow cdn`
 
 ---
