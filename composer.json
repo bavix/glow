@@ -8,17 +8,19 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
-        "ext-imagick": "*",
-        "ext-gd": "*",
-        "ext-json": "*",
+        "php": "^7.3",
         "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-imagick": "*",
+        "ext-json": "*",
         "bavix/glow-kit": "^2.0",
         "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.5",
-        "laravel/framework": "^7.26",
-        "laravel/sanctum": "^v2.5",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "inertiajs/inertia-laravel": "^0.2.11",
+        "laravel/framework": "^8.0",
+        "laravel/jetstream": "^1.0",
+        "laravel/sanctum": "^2.6",
         "laravel/tinker": "^v2.4",
         "laravel/ui": "^2.2",
         "league/color-extractor": "^0.3",
@@ -26,11 +28,11 @@
         "spatie/laravel-query-builder": "^3.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.8",
+        "barryvdh/laravel-ide-helper": "^v2.8",
         "facade/ignition": "^2.3",
         "fzaninotto/faker": "^v1.9",
         "mockery/mockery": "^1.4",
-        "nunomaduro/collision": "^v4.2",
+        "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3"
     },
     "config": {
@@ -45,12 +47,10 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {

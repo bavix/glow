@@ -2,6 +2,10 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BucketController;
+use App\Http\Controllers\Api\ViewController;
+use App\Http\Controllers\Api\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +19,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('auth')->group(static function (Router $router) {
-    $router->get('abilities', 'Api\AuthController@abilities')
+    $router->get('abilities', [AuthController::class, 'abilities'])
         ->name('auth.abilities');
 
-    $router->post('token', 'Api\AuthController@token')
+    $router->post('token', [AuthController::class, 'token'])
         ->name('auth.token');
 });
 
 Route::middleware('auth:sanctum')->group(static function (Router $router) {
-    $router->apiResource('bucket', 'Api\BucketController');
-    $router->apiResource('bucket/{bucket}/view', 'Api\ViewController');
-    $router->apiResource('bucket/{bucket}/file', 'Api\FileController');
-    $router->get('bucket/{bucket}/listContents', 'Api\FileController@listContents')
+    $router->apiResource('bucket', BucketController::class);
+    $router->apiResource('bucket/{bucket}/view', ViewController::class);
+    $router->apiResource('bucket/{bucket}/file', FileController::class);
+    $router->get('bucket/{bucket}/listContents', [FileController::class, 'listContents'])
         ->name('file.listContents');
-    $router->post('bucket/{bucket}/invite/{file}', 'Api\FileController@invite')
+    $router->post('bucket/{bucket}/invite/{file}', [FileController::class, 'invite'])
         ->name('file.invite');
 });

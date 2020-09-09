@@ -1,8 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Welcome;
+use App\Http\Controllers\Sharing\FileController;
 
-Auth::routes();
+/**
+ * Add authorization and registration with laravel/ui
+ */
+Route::namespace('App\Http\Controllers')->group(static function () {
+    Auth::routes();
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +22,15 @@ Auth::routes();
 |
 */
 
-Route::view('/', 'welcome')
+Route::get('/', [Welcome::class, 'index'])
     ->name('welcome');
 
-Route::get('/capsule/{capsule}:{thumbs}/{file}', 'Sharing\FileController@available')
+Route::get('/capsule/{capsule}:{thumbs}/{file}', [FileController::class, 'available'])
     ->name('capsule.available');
 
-Route::get('/capsule/_{capsule}/{file}', 'Sharing\FileController@invite')
+Route::get('/capsule/_{capsule}/{file}', [FileController::class, 'invite'])
     ->name('capsule.invite');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return Inertia\Inertia::render('Dashboard');
+})->name('dashboard');
